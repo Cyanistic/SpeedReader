@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@1.9.6/dist/tailwind.min.css">
+</head>
+<body>
+    <button id="settingsButton" class="px-2 py-2"><img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn.onlinewebfonts.com%2Fsvg%2Fimg_144812.png&f=1&nofb=1&ipt=286598dcb5dc41c47d340c3a75a50053b265cfeeea1bca98b075ce863dd83cc5&ipo=images" alt="" height="30" width="30"></button>
+    <div class="settings">
+        <div class="settings-header">
+
+        </div>
+    </div>
+    <div class="grid justify-center">
+        <textarea name="" id="textInput" cols="30" rows="10" id="textInput" placeholder="Enter your text" class="border-black border-2"></textarea>
+        <br>
+        <input type="text" placeholder="Rate (WPM)" id="rateInput" class="border-black border-2">
+        <br>
+        <button id="startButton" class="border-black border-2" onclick="startRead()">Start</button>
+        <br>
+        <button id="testButton" class="border-black border-2" onclick="testFill()">Use Example Text</button>
+    </div>
+    <div class="grid place-content-center py-48">
+        <h1 class="font-bold center text-5xl" id="resultText">Text</h1>
+    </div>
+<!--      Lorem ipsum dolor sit, amet consectetur adipisicing elit. Neque, reprehenderit, eius commodi, voluptatum iure doloremque molestias ratione aspernatur recusandae minima laboriosam? Unde ipsum temporibus odit id magnam earum excepturi architecto?
+ -->
+    <script src="index.js"></script>
+</body>
+</html>
