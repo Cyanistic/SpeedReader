@@ -4,20 +4,33 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>SpeedReader</title>
     <link rel="stylesheet" href="https://unpkg.com/tailwindcss@1.9.6/dist/tailwind.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="../logo.png">
+    <script src="jscolor.js"></script>
 </head>
 <body>
-    <button id="settingsButton" class="px-2 py-2"><img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn.onlinewebfonts.com%2Fsvg%2Fimg_144812.png&f=1&nofb=1&ipt=286598dcb5dc41c47d340c3a75a50053b265cfeeea1bca98b075ce863dd83cc5&ipo=images" alt="" height="30" width="30"></button>
-    <div class="settings">
+    <button data-settingsOpenButton="#settings" class="px-2 py-2"><img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn.onlinewebfonts.com%2Fsvg%2Fimg_144812.png&f=1&nofb=1&ipt=286598dcb5dc41c47d340c3a75a50053b265cfeeea1bca98b075ce863dd83cc5&ipo=images" alt="" height="30" width="30"></button>
+    <div class="settings" id="settings">
         <div class="settings-header">
-
+            Settings
+            <button data-settingsCloseButton><img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fclipground.com%2Fimages%2Fwhite-x-png-4.png&f=1&nofb=1&ipt=6f87dd2d2be2a9d913b84dae5ba88bfb52eb6a23f8e81c8d668c3697ef6d539e&ipo=images" alt="" width="20" height="20"></button>
+        </div>
+        <div class="settings-body">
+            Text Color: <input data-jscolor="" id="inputColor">
+            <br>
+            Hide Top When Running: <input type="checkbox">
+            <br>
+            <button id="settingsSaveButton" onclick="saveSettings()">Save</button>
         </div>
     </div>
-    <div class="grid justify-center">
+    <div id="overlay"></div>
+    <div class="grid justify-center" id="inputDiv">
+        <h1 class="font-bold center text-5xl py-12">Speedreader</h1>
         <textarea name="" id="textInput" cols="30" rows="10" id="textInput" placeholder="Enter your text" class="border-black border-2"></textarea>
         <br>
-        <input type="text" placeholder="Rate (WPM)" id="rateInput" class="border-black border-2">
+        <input type="number" placeholder="Rate (WPM)" id="rateInput" class="border-black border-2">
         <br>
         <button id="startButton" class="border-black border-2" onclick="startRead()">Start</button>
         <br>

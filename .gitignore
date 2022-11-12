@@ -1,3 +1,4 @@
 *.json
 *.lock
 Speedreader/node_modules
+Speedreader/src/web/jscolor.min.js

@@ -1,10 +1,52 @@
+const settingsOpenButton = document.querySelector("[data-settingsOpenButton]")
+const settingsCloseButton = document.querySelector("[data-settingsCloseButton]")
+const overlay = document.getElementById("overlay")
+const result = document.getElementById("resultText")
+const userColor = document.getElementById("inputColor")
+let cookies : object
+
+if (!document.cookie) cookies = {}
+else{
+    cookies = JSON.parse(document.cookie)
+    result?.style.color = userColor.value = cookies["textColor"]
+}
+
+
+settingsOpenButton.addEventListener("click", () =>{
+    console.log(settingsOpenButton.dataset)
+    const popup = document.querySelector(settingsOpenButton.dataset.settingsopenbutton)
+    openSettings(popup)
+})
+
+settingsCloseButton.addEventListener("click", () =>{
+    const popup = settingsCloseButton?.closest(".settings")
+    closeSettings(popup)
+})
+
+function openSettings(popup){
+    if (popup == null) return
+    popup.classList.add("active")
+    overlay.classList.add("active")
+}
+
+function closeSettings(popup){
+    if (popup == null) return
+    popup.classList.remove("active")
+    overlay.classList.remove("active")
+}
+
+function saveSettings(){
+    cookies["textColor"] = userColor.value
+    result?.style.color = cookies["textColor"]
+    document.cookie = JSON.stringify(cookies)
+}
 
 async function startRead(){
     const text = document.getElementById("textInput").value
     const rate = (60/Number(document.getElementById("rateInput").value))*1000
-    const result = document.getElementById("resultText")
     const wordArray = text.replace(/\s\s+/g, ' ').split(" ")
 
+    console.log(wordArray.join(" ").substring(0, 200))
     for (let i of wordArray){
         await sleep(rate)
         result.innerText = i

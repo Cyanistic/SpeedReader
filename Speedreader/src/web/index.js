@@ -8,12 +8,50 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+const settingsOpenButton = document.querySelector("[data-settingsOpenButton]");
+const settingsCloseButton = document.querySelector("[data-settingsCloseButton]");
+const overlay = document.getElementById("overlay");
+const result = document.getElementById("resultText");
+const userColor = document.getElementById("inputColor");
+let cookies;
+if (!document.cookie)
+    cookies = {};
+else {
+    cookies = JSON.parse(document.cookie);
+    result === null || result === void 0 ? void 0 : result.style.color = userColor.value = cookies["textColor"];
+}
+settingsOpenButton.addEventListener("click", () => {
+    console.log(settingsOpenButton.dataset);
+    const popup = document.querySelector(settingsOpenButton.dataset.settingsopenbutton);
+    openSettings(popup);
+});
+settingsCloseButton.addEventListener("click", () => {
+    const popup = settingsCloseButton === null || settingsCloseButton === void 0 ? void 0 : settingsCloseButton.closest(".settings");
+    closeSettings(popup);
+});
+function openSettings(popup) {
+    if (popup == null)
+        return;
+    popup.classList.add("active");
+    overlay.classList.add("active");
+}
+function closeSettings(popup) {
+    if (popup == null)
+        return;
+    popup.classList.remove("active");
+    overlay.classList.remove("active");
+}
+function saveSettings() {
+    cookies["textColor"] = userColor.value;
+    result === null || result === void 0 ? void 0 : result.style.color = cookies["textColor"];
+    document.cookie = JSON.stringify(cookies);
+}
 function startRead() {
     return __awaiter(this, void 0, void 0, function* () {
         const text = document.getElementById("textInput").value;
         const rate = (60 / Number(document.getElementById("rateInput").value)) * 1000;
-        const result = document.getElementById("resultText");
         const wordArray = text.replace(/\s\s+/g, ' ').split(" ");
+        console.log(wordArray.join(" ").substring(0, 200));
         for (let i of wordArray) {
             yield sleep(rate);
             result.innerText = i;
