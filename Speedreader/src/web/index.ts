@@ -1,8 +1,11 @@
 const settingsOpenButton = document.querySelector("[data-settingsOpenButton]")
 const settingsCloseButton = document.querySelector("[data-settingsCloseButton]")
+const infoOpenButton = document.querySelector("[data-infoOpenButton]")
+const infoCloseButton = document.querySelector("[data-infoCloseButton]")
 const overlay = document.getElementById("overlay")
 const result = document.getElementById("resultText")
 const userColor = document.getElementById("inputColor")
+const userSize = document.getElementById("inputSize")
 let stopFunction = false
 let cookies : object
 
@@ -14,23 +17,40 @@ else{
 
 
 settingsOpenButton.addEventListener("click", () =>{
-    console.log(settingsOpenButton.dataset)
     const popup = document.querySelector(settingsOpenButton.dataset.settingsopenbutton)
-    openSettings(popup)
+    openPopup(popup)
 })
 
 settingsCloseButton.addEventListener("click", () =>{
     const popup = settingsCloseButton?.closest(".settings")
-    closeSettings(popup)
+    closePopup(popup)
 })
 
-function openSettings(popup){
+infoOpenButton.addEventListener("click", () =>{
+    console.log(infoOpenButton.dataset)
+    const popup = document.querySelector(infoOpenButton.dataset.infoopenbutton)
+    openPopup(popup)
+})
+
+infoCloseButton.addEventListener("click", () =>{
+    const popup = infoCloseButton?.closest(".info")
+    closePopup(popup)
+})
+
+overlay.addEventListener("click", () => {
+    let popup
+    if (settingsCloseButton?.closest(".settings").classList.toString().includes("active")) {popup = settingsCloseButton?.closest(".settings")}
+    else if (infoCloseButton?.closest(".info").classList.toString().includes("active")) {popup = infoCloseButton?.closest(".info")}
+    closePopup(popup)
+}) 
+
+function openPopup(popup){
     if (popup == null) return
     popup.classList.add("active")
     overlay.classList.add("active")
 }
 
-function closeSettings(popup){
+function closePopup(popup){
     if (popup == null) return
     popup.classList.remove("active")
     overlay.classList.remove("active")
@@ -38,7 +58,9 @@ function closeSettings(popup){
 
 function saveSettings(){
     cookies["textColor"] = userColor.value
+    cookies["textSize"] = userSize.value
     result?.style.color = cookies["textColor"]
+    result?.style.fontSize = `${cookies["textSize"]}mm`
     document.cookie = JSON.stringify(cookies)
 }
 
