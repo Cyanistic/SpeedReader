@@ -64,3 +64,8 @@ input, textarea, button{
     font-weight: 700;
     font-size:  20mm;
 }
+
+#inputHide, #inputWordCount{
+    height: 20px;
+    width: 20px;
+}
