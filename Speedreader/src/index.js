@@ -15,7 +15,7 @@ const createWindow = () => {
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     },
-    icon: "src/logo.png"
+    icon: path.join(__dirname, "src/logo.png")
   });
 
   // and load the index.html of the app.

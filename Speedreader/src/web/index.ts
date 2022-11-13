@@ -1,3 +1,4 @@
+const menu = document.getElementById("inputDiv")
 const settingsOpenButton = document.querySelector("[data-settingsOpenButton]")
 const settingsCloseButton = document.querySelector("[data-settingsCloseButton]")
 const infoOpenButton = document.querySelector("[data-infoOpenButton]")
@@ -6,13 +7,14 @@ const overlay = document.getElementById("overlay")
 const result = document.getElementById("resultText")
 const userColor = document.getElementById("inputColor")
 const userSize = document.getElementById("inputSize")
+const userHidden = document.getElementById("inputHide")
 let stopFunction = false
 let cookies : object
 
 if (!document.cookie) cookies = {}
 else{
     cookies = JSON.parse(document.cookie)
-    result?.style.color = userColor.value = cookies["textColor"]
+    setSettings()
 }
 
 
@@ -59,9 +61,16 @@ function closePopup(popup){
 function saveSettings(){
     cookies["textColor"] = userColor.value
     cookies["textSize"] = userSize.value
-    result?.style.color = cookies["textColor"]
-    result?.style.fontSize = `${cookies["textSize"]}mm`
+    cookies["hideTop"] =  userHidden.checked
+    setSettings()
     document.cookie = JSON.stringify(cookies)
+}
+
+function setSettings(){
+    result?.style.color = userColor.value = cookies["textColor"]
+    result?.style.fontSize = `${cookies["textSize"]}mm`
+    userSize.value = cookies["textSize"]
+    userHidden.checked = cookies["hideTop"]
 }
 
 async function startRead(){
@@ -71,15 +80,18 @@ async function startRead(){
     const text = document.getElementById("textInput").value
     const rate = (60/Number(document.getElementById("rateInput").value))*1000
     const wordArray = text.replace(/[\s\n\r]+/g, ' ').split(" ")
+    if (cookies["hideTop"] == true) {
+        menu.style.display = "none"
+        button.style.display = "block"
+    }
 
-
-    console.log(wordArray.join(" ").substring(0, 200))
     for (let i of wordArray){
         if (!stopFunction){
         await sleep(rate)
         result.innerText = i
-        }
+        }else break
     }
+    if (menu.style.display == "none") menu.style.display = "block"
     stopFunction = false
     button.innerText = "Start"
     button.setAttribute("onclick", "startRead()")
