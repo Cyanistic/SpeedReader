@@ -3,6 +3,7 @@ const settingsCloseButton = document.querySelector("[data-settingsCloseButton]")
 const overlay = document.getElementById("overlay")
 const result = document.getElementById("resultText")
 const userColor = document.getElementById("inputColor")
+let stopFunction = false
 let cookies : object
 
 if (!document.cookie) cookies = {}
@@ -42,16 +43,29 @@ function saveSettings(){
 }
 
 async function startRead(){
+    const button = document.getElementById("startButton")
+    button.innerText = "Stop"
+    button.setAttribute("onclick", "stopRead()")
     const text = document.getElementById("textInput").value
     const rate = (60/Number(document.getElementById("rateInput").value))*1000
-    const wordArray = text.replace(/\s\s+/g, ' ').split(" ")
+    const wordArray = text.replace(/[\s\n\r]+/g, ' ').split(" ")
+
 
     console.log(wordArray.join(" ").substring(0, 200))
     for (let i of wordArray){
+        if (!stopFunction){
         await sleep(rate)
         result.innerText = i
+        }
     }
+    stopFunction = false
+    button.innerText = "Start"
+    button.setAttribute("onclick", "startRead()")
     console.log("End of input")
+}
+
+function stopRead(){
+    stopFunction = true
 }
 
 function sleep(ms: number) {
@@ -60,7 +74,6 @@ function sleep(ms: number) {
 
  function testFill(){
     document.getElementById("textInput").value = shuffle("Lorem ipsum dolor sit, amet consectetur adipisicing elit. Neque, reprehenderit, eius commodi, voluptatum iure doloremque molestias ratione aspernatur recusandae minima laboriosam? Unde ipsum temporibus odit id magnam earum excepturi architecto?".split(" ")).join(" ")
-
  }
 
  function shuffle(array) {

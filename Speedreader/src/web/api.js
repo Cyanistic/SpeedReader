@@ -1,0 +1,1 @@
+export default PARAGRAPH_KEY = "balls"

@@ -13,6 +13,7 @@ const settingsCloseButton = document.querySelector("[data-settingsCloseButton]")
 const overlay = document.getElementById("overlay");
 const result = document.getElementById("resultText");
 const userColor = document.getElementById("inputColor");
+let stopFunction = false;
 let cookies;
 if (!document.cookie)
     cookies = {};
@@ -48,16 +49,27 @@ function saveSettings() {
 }
 function startRead() {
     return __awaiter(this, void 0, void 0, function* () {
+        const button = document.getElementById("startButton");
+        button.innerText = "Stop";
+        button.setAttribute("onclick", "stopRead()");
         const text = document.getElementById("textInput").value;
         const rate = (60 / Number(document.getElementById("rateInput").value)) * 1000;
-        const wordArray = text.replace(/\s\s+/g, ' ').split(" ");
+        const wordArray = text.replace(/[\s\n\r]+/g, ' ').split(" ");
         console.log(wordArray.join(" ").substring(0, 200));
         for (let i of wordArray) {
-            yield sleep(rate);
-            result.innerText = i;
+            if (!stopFunction) {
+                yield sleep(rate);
+                result.innerText = i;
+            }
         }
+        stopFunction = false;
+        button.innerText = "Start";
+        button.setAttribute("onclick", "startRead()");
         console.log("End of input");
     });
+}
+function stopRead() {
+    stopFunction = true;
 }
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
