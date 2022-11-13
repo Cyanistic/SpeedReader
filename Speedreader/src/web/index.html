@@ -25,6 +25,8 @@
             <br>
             Hide Top When Running: <input type="checkbox" id="inputHide">
             <br>
+            Display Word Count: <input type="checkbox" id="inputWordCount" checked="true">
+            <br>
             <button id="settingsSaveButton" onclick="saveSettings()">Save</button>
         </div>
     </div>
@@ -50,6 +52,8 @@
         <button id="startButton" class="border-black border-2" onclick="startRead()">Start</button>
         <br>
         <button id="testButton" class="border-black border-2" onclick="testFill()">Use Example Text</button>
+        <br>
+        <h1 class="justify-self-center" id="wordCount">Word <span id="currentCount">0</span> of <span id="totalCount">0</span></h1>
     </div>
     <div class="grid place-content-center py-12">
         <h1 class="center" id="resultText">Text</h1>

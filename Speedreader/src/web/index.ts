@@ -8,6 +8,8 @@ const result = document.getElementById("resultText")
 const userColor = document.getElementById("inputColor")
 const userSize = document.getElementById("inputSize")
 const userHidden = document.getElementById("inputHide")
+const userWordCount = document.getElementById("inputWordCount")
+const wordCount = document.getElementById("wordCount")
 let stopFunction = false
 let cookies : object
 
@@ -62,6 +64,7 @@ function saveSettings(){
     cookies["textColor"] = userColor.value
     cookies["textSize"] = userSize.value
     cookies["hideTop"] =  userHidden.checked
+    cookies["showWordCount"] = userWordCount.checked
     setSettings()
     document.cookie = JSON.stringify(cookies)
 }
@@ -71,6 +74,8 @@ function setSettings(){
     result?.style.fontSize = `${cookies["textSize"]}mm`
     userSize.value = cookies["textSize"]
     userHidden.checked = cookies["hideTop"]
+    userWordCount.checked = cookies["showWordCount"]
+    userWordCount.checked ? wordCount.style.visibility = "visible" : wordCount.style.visibility = "hidden"
 }
 
 async function startRead(){
@@ -80,16 +85,17 @@ async function startRead(){
     const text = document.getElementById("textInput").value
     const rate = (60/Number(document.getElementById("rateInput").value))*1000
     const wordArray = text.replace(/[\s\n\r]+/g, ' ').split(" ")
-    if (cookies["hideTop"] == true) {
-        menu.style.display = "none"
-        button.style.display = "block"
-    }
-
-    for (let i of wordArray){
+    const currentCount = document.getElementById("currentCount")
+    const totalCount = document.getElementById("totalCount")
+    if (cookies["hideTop"] == true) menu.style.display = "none"
+    totalCount.innerText = wordArray.length
+    for (let i in wordArray){
         if (!stopFunction){
         await sleep(rate)
-        result.innerText = i
-        }else break
+        result.innerText = wordArray[i]
+        currentCount.innerText = Number(i) + 1 
+        }
+        else break
     }
     if (menu.style.display == "none") menu.style.display = "block"
     stopFunction = false

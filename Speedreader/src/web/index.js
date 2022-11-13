@@ -18,6 +18,8 @@ const result = document.getElementById("resultText");
 const userColor = document.getElementById("inputColor");
 const userSize = document.getElementById("inputSize");
 const userHidden = document.getElementById("inputHide");
+const userWordCount = document.getElementById("inputWordCount");
+const wordCount = document.getElementById("wordCount");
 let stopFunction = false;
 let cookies;
 if (!document.cookie)
@@ -69,6 +71,7 @@ function saveSettings() {
     cookies["textColor"] = userColor.value;
     cookies["textSize"] = userSize.value;
     cookies["hideTop"] = userHidden.checked;
+    cookies["showWordCount"] = userWordCount.checked;
     setSettings();
     document.cookie = JSON.stringify(cookies);
 }
@@ -77,6 +80,8 @@ function setSettings() {
     result === null || result === void 0 ? void 0 : result.style.fontSize = `${cookies["textSize"]}mm`;
     userSize.value = cookies["textSize"];
     userHidden.checked = cookies["hideTop"];
+    userWordCount.checked = cookies["showWordCount"];
+    userWordCount.checked ? wordCount.style.visibility = "visible" : wordCount.style.visibility = "hidden";
 }
 function startRead() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -86,14 +91,16 @@ function startRead() {
         const text = document.getElementById("textInput").value;
         const rate = (60 / Number(document.getElementById("rateInput").value)) * 1000;
         const wordArray = text.replace(/[\s\n\r]+/g, ' ').split(" ");
-        if (cookies["hideTop"] == true) {
+        const currentCount = document.getElementById("currentCount");
+        const totalCount = document.getElementById("totalCount");
+        if (cookies["hideTop"] == true)
             menu.style.display = "none";
-            button.style.display = "block";
-        }
-        for (let i of wordArray) {
+        totalCount.innerText = wordArray.length;
+        for (let i in wordArray) {
             if (!stopFunction) {
                 yield sleep(rate);
-                result.innerText = i;
+                result.innerText = wordArray[i];
+                currentCount.innerText = Number(i) + 1;
             }
             else
                 break;
